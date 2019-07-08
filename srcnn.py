@@ -24,9 +24,10 @@ def drop_resolution(x, scale=5.0):
     return arr_img
 
 # 定議產生器
-def data_generator(data_dir, scale=3.0, target_size=(255, 255), batch_size=32, shuffle=True):
+def data_generator(data_dir, mode, scale=3.0, target_size=(255, 255), batch_size=32, shuffle=True):
     for imgs in ImageDataGenerator().flow_from_directory(
         directory=data_dir,
+        classes=[mode],
         class_mode=None,
         color_mode='rgb',
         batch_size=batch_size,
@@ -42,16 +43,17 @@ def psnr(y_true, y_pred):
     
 
 def main():
-    DATA_DIR = '/train_data/DIV2K_train_HR/'
-    TEST_DATA_DIR = 'data/test/'
+    DATA_DIR = '/train_data/'
+    TEST_DATA_DIR = 'data/'
     N_TRAIN_DATA = 1000
     N_TEST_DATA = 100
     BATCH_SIZE = 32
 
-    train_data_generator = data_generator(DATA_DIR, batch_size=BATCH_SIZE)
+    train_data_generator = data_generator(DATA_DIR, 'DIV2K_train_HR', batch_size=BATCH_SIZE)
     test_x, test_y = next(
         data_generator(
             TEST_DATA_DIR,
+            'test',
             batch_size=N_TEST_DATA,
             shuffle=False
         )
