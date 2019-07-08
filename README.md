@@ -1,1 +1,1 @@
-SuperResolution
+Super-Resolution using a Convolutional Neural Network
